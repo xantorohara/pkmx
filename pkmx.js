@@ -1,3 +1,23 @@
+/*
+ * Copyright (c) 2014  Xantorohara
+ * Released under the MIT license
+ */
+
+/**
+ * Pack elements inside the container
+ * @param container - CSS selector or DOM element
+ * @param elements - CSS selector or list of DOM elements
+ * @param options - layout options
+ * {
+ * cellWidth: number,
+ * cellHeight: number,
+ * cellValign: top | center | bottom
+ * cellHalign: left |center | right
+ * optimizeSort: boolean,
+ * liveAppend: boolean
+ * }
+ * @returns {{append: append, repack: repack}} - function to append or repack elements
+ */
 function pkmx(container, elements, options) {
 
     if (typeof container == 'string') {
@@ -9,31 +29,27 @@ function pkmx(container, elements, options) {
     }
 
     options = options || {};
-    var cellWidth = options.cellWidth || 10;
-    var cellHeight = options.cellHeight || 10;
+    options.cellWidth = options.cellWidth || 10;
+    options.cellHeight = options.cellHeight || 10;
 
-    var matrix = [];
-    var columns = 0;
-
-
-    var index = 0;
-    var e2 = [];
-
+    var matrix, columns, index;
+    var elems = [];
     for (var i = 0; i < elements.length; i++) {
-        e2.push(elements[i]);
+        elems.push(elements[i]);
     }
 
     function repack() {
         matrix = [];
-        columns = container.clientWidth / cellWidth | 0;
+        columns = container.clientWidth / options.cellWidth | 0;
+        index = 0;
 
         if (options.optimizeSort) {
-            e2.sort(function (a, b) {
+            elems.sort(function (a, b) {
                 return (b.offsetWidth + b.offsetHeight) - (a.offsetWidth + a.offsetHeight);
             });
         }
-        for (var i = 0; i < e2.length; i++) {
-            _append(e2[i]);
+        for (var i = 0; i < elems.length; i++) {
+            _append(elems[i]);
         }
 
         if (!options.liveAppend) {
@@ -46,7 +62,7 @@ function pkmx(container, elements, options) {
             elements = document.querySelectorAll(elements);
         }
         for (var i = 0; i < elements.length; i++) {
-            e2.push(elements[i]);
+            elems.push(elements[i]);
             if (options.liveAppend) {
                 _append(elements[i]);
             }
@@ -57,31 +73,30 @@ function pkmx(container, elements, options) {
         var elemW = element.offsetWidth;
         var elemH = element.offsetHeight;
 
-        var sizeX = Math.ceil(elemW / cellWidth);
-        var sizeY = Math.ceil(elemH / cellHeight);
+        var sizeX = Math.ceil(elemW / options.cellWidth);
+        var sizeY = Math.ceil(elemH / options.cellWidth);
 
         var pos = pkmx.mxAllocate(matrix, columns, sizeX, sizeY, ++index);
-//        console.log('pkmx steps: ', debug_perf);
 
         if (pos) {
             var dx = 0, dy = 0;
 
             if (options.cellValign == 'center') {
-                dy = (sizeY * cellHeight - elemH) / 2 | 0;
+                dy = (sizeY * options.cellHeight - elemH) / 2 | 0;
             } else if (options.cellValign == 'bottom') {
-                dy = sizeY * cellHeight - elemH;
+                dy = sizeY * options.cellHeight - elemH;
             }
 
             if (options.cellHalign == 'center') {
-                dx = (sizeX * cellWidth - elemW) / 2 | 0;
+                dx = (sizeX * options.cellWidth - elemW) / 2 | 0;
             } else if (options.cellHalign == 'right') {
-                dx = sizeX * cellWidth - elemW;
+                dx = sizeX * options.cellWidth - elemW;
             }
 
             element.style.display = 'block';
             element.style.position = 'absolute';
-            element.style.top = pos[1] * cellHeight + dy + 'px';
-            element.style.left = pos[0] * cellWidth + dx + 'px';
+            element.style.top = pos[1] * options.cellHeight + dy + 'px';
+            element.style.left = pos[0] * options.cellWidth + dx + 'px';
         }
     }
 
@@ -118,13 +133,13 @@ pkmx.mxFillBox = function (matrix, columnsCount, xPos, yPos, xLen, yLen, index) 
     }
 };
 
-pkmx.mxTestBox = function (matrix, columns, xPos, yPos, xLen, yLen) {
-    if (xPos + xLen > columns) {
+pkmx.mxTestBox = function (matrix, columnsCount, xPos, yPos, xLen, yLen) {
+    if (xPos + xLen > columnsCount) {
         throw 'Index out of bounds';
     }
     for (var iY = 0; iY < yLen && iY + yPos < matrix.length; iY++) {
         var row = matrix[yPos + iY];
-        if (row[columns] < xLen) {
+        if (row[columnsCount] < xLen) {
             return false;
         }
         for (var iX = 0; iX < xLen; iX++) {
@@ -142,7 +157,7 @@ pkmx.mxAllocate = function (matrix, columnsCount, xLen, yLen, index) {
             var row = matrix[iY];
 
             if (!row || row[columnsCount] >= xLen) {
-                for (var iX = 0; iX < columnsCount; iX++) {
+                for (var iX = 0; iX <= columnsCount - xLen; iX++) {
                     if (pkmx.mxTestBox(matrix, columnsCount, iX, iY, xLen, yLen)) {
                         var rowsCount = iY + yLen - matrix.length;
                         if (rowsCount > 0) {

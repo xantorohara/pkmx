@@ -22,7 +22,7 @@ var testmx = {
         return true;
     },
 
-    assertMatrix: function (actualMatrix, expectedMatrix) {
+    assertMatrixEquals: function (actualMatrix, expectedMatrix) {
         if (!testmx.compareMatrix(actualMatrix, expectedMatrix)) {
             console.error('Not equals matrixes');
             console.log('Actual Matrix:');
@@ -35,7 +35,7 @@ var testmx = {
     testAllocateMatrix: function (matrix, columnsCount, xLen, yLen, index, expectedMatrix) {
         console.log('pkmx.mxAllocate: ', xLen, yLen, index);
         pkmx.mxAllocate(matrix, columnsCount, xLen, yLen, index);
-        testmx.assertMatrix(matrix, expectedMatrix);
+        testmx.assertMatrixEquals(matrix, expectedMatrix);
         console.log('end');
     }
 };
@@ -48,7 +48,7 @@ var testmx = {
     var matrix = [];
 
     pkmx.mxCreateRows(matrix, columns, 2);
-    testmx.assertMatrix(matrix, [
+    testmx.assertMatrixEquals(matrix, [
         [0, 0, 0, 3],
         [0, 0, 0, 3]
     ]);
@@ -66,14 +66,14 @@ var testmx = {
     ];
 
     pkmx.mxFillBox(matrix, columns, 0, 0, 1, 1, 1);
-    testmx.assertMatrix(matrix, [
+    testmx.assertMatrixEquals(matrix, [
         [1, 0, 0, 2],
         [0, 0, 0, 3],
         [0, 0, 0, 3]
     ]);
 
     pkmx.mxFillBox(matrix, columns, 1, 1, 2, 2, 2);
-    testmx.assertMatrix(matrix, [
+    testmx.assertMatrixEquals(matrix, [
         [1, 0, 0, 2],
         [0, 2, 2, 1],
         [0, 2, 2, 1]
@@ -112,14 +112,19 @@ var testmx = {
     result = pkmx.mxTestBox(matrix, columns, 1, 1, 2, 2);
     console.assert(result, 'Expected 2 rows to create');
 
-    console.log('ok');
+    try {
+        result = pkmx.mxTestBox(matrix, columns, 1, 0, 3, 1);
+        console.error('Expected exception');
+    } catch (e) {
+    }
+
 }());
 
 
 (function () {
     var matrix = [];
     var columns = 3;
-
+    console.log('Fill rows');
     {
         testmx.testAllocateMatrix(matrix, columns, 1, 1, 1, [
             [1, 0, 0, 2]
@@ -152,7 +157,7 @@ var testmx = {
         ]);
     }
     {
-        testmx.testAllocateMatrix(matrix, columns, 4, 1, 0xDEADBEEF, [
+        testmx.testAllocateMatrix(matrix, columns, 4, 1, 9, [
             [1, 2, 3, 0],
             [4, 5, 5, 0],
             [6, 6, 6, 0]
@@ -165,26 +170,42 @@ var testmx = {
     var matrix = [];
     var columns = 3;
 
-    {
-        console.log('Fill columns');
+    console.log('Fill columns');
 
-        testmx.testAllocateMatrix(matrix, columns, 1, 3, 1, [
-            [1, 0, 0, 2],
-            [1, 0, 0, 2],
-            [1, 0, 0, 2]
-        ]);
+    testmx.testAllocateMatrix(matrix, columns, 1, 3, 1, [
+        [1, 0, 0, 2],
+        [1, 0, 0, 2],
+        [1, 0, 0, 2]
+    ]);
 
-        testmx.testAllocateMatrix(matrix, columns, 1, 3, 2, [
-            [1, 2, 0, 1],
-            [1, 2, 0, 1],
-            [1, 2, 0, 1]
-        ]);
+    testmx.testAllocateMatrix(matrix, columns, 1, 3, 2, [
+        [1, 2, 0, 1],
+        [1, 2, 0, 1],
+        [1, 2, 0, 1]
+    ]);
 
-        testmx.testAllocateMatrix(matrix, columns, 1, 3, 3, [
-            [1, 2, 3, 0],
-            [1, 2, 3, 0],
-            [1, 2, 3, 0]
-        ]);
-    }
+    testmx.testAllocateMatrix(matrix, columns, 1, 3, 3, [
+        [1, 2, 3, 0],
+        [1, 2, 3, 0],
+        [1, 2, 3, 0]
+    ]);
+
+    testmx.testAllocateMatrix(matrix, columns, 3, 3, 4, [
+        [1, 2, 3, 0],
+        [1, 2, 3, 0],
+        [1, 2, 3, 0],
+        [4, 4, 4, 0],
+        [4, 4, 4, 0],
+        [4, 4, 4, 0]
+    ]);
+
+    testmx.testAllocateMatrix(matrix, columns, 4, 4, 5, [
+        [1, 2, 3, 0],
+        [1, 2, 3, 0],
+        [1, 2, 3, 0],
+        [4, 4, 4, 0],
+        [4, 4, 4, 0],
+        [4, 4, 4, 0]
+    ]);
 
 }());
