@@ -1,1 +1,202 @@
-Page todo
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+
+    <title>pkmx</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QgCBSYzgsgGwgAAAElJREFUaN7tzwENACAMA7CDf2nzdGyQpXXQmQJJ9k4JERERERERERERERERERERERERERERERERERERERERERERERGRz50k2xB5pjwHKIxPWXIAAAAASUVORK5CYII=");
+            position: relative;
+        }
+
+        .item {
+            top: 0;
+            left: 0;
+            transition: 1s linear;
+        }
+
+        .dbg {
+            border: dashed red 1px;
+        }
+
+        .comment {
+            position: absolute;
+            width: 460px;
+            left: 210px;
+            padding: 10px;
+            background-color: #FFF;
+            border: dashed red 1px;
+            opacity: 0.75;
+            box-sizing: border-box;
+        }
+
+        .scode {
+            display: block;
+            font-size: 12px;
+            white-space: pre-line;
+        }
+
+        .x {
+            position: absolute;
+            opacity: 0.5;
+        }
+    </style>
+
+    <script src="pkmx.js"></script>
+    <script>
+        function printScript(scriptId) {
+            document.write('<code class="scode">' + document.getElementById(scriptId).textContent + '</code>');
+        }
+    </script>
+</head>
+
+<body>
+
+<div class="x" style="background-color: #FC9; width: 500px; height: 500px;"></div>
+<div class="x" style="background-color: #F9C; width: 500px; height: 300px;"></div>
+<div class="x" style="background-color: #F9C; width: 500px; height: 500px;"></div>
+<div class="x" style="background-color: #CF9; width: 300px; height: 300px;"></div>
+<div class="x" style="background-color: #9FC; width: 300px; height: 500px;"></div>
+<div class="x" style="background-color: #C9F; width: 300px; height: 300px;"></div>
+<div class="x" style="background-color: #9CF; width: 200px; height: 200px;"></div>
+
+<div style="position: absolute; width: 900px; height: 500px; left: 50px; top: 100px;">
+    <div id="sample1" style="position: absolute; left: 0; top: 0; width: 200px;">
+        <div class="item" style="background-color: #FC9; width: 100px; height: 50px;">1</div>
+        <div class="item" style="background-color: #F9C; width: 150px; height: 50px;">2</div>
+        <div class="item" style="background-color: #CF9; width: 50px; height: 150px;">3</div>
+        <div class="item" style="background-color: #9FC; width: 50px; height: 100px;">4</div>
+        <div class="item" style="background-color: #C9F; width: 100px; height: 100px;">5</div>
+        <div class="item" style="background-color: #9CF; width: 50px; height: 50px;">6</div>
+        <div class="item" style="background-color: #CCC; width: 50px; height: 50px;">7</div>
+    </div>
+    <script id="script1">
+        pkmx('#sample1', '#sample1 .item');
+    </script>
+    <div class="comment" style="top: 10px; ">
+        <p>◄ Sample 1 (default pack):</p>
+
+        <script>printScript('script1')</script>
+    </div>
+
+
+    <div id="sample2" style="position: absolute; left: 0; top: 250px; width: 200px;">
+        <div class="item" style="background-color: #FC9; width: 100px; height: 50px;">1</div>
+        <div class="item" style="background-color: #F9C; width: 150px; height: 50px;">2</div>
+        <div class="item" style="background-color: #CF9; width: 50px; height: 150px;">3</div>
+        <div class="item" style="background-color: #9FC; width: 50px; height: 100px;">4</div>
+        <div class="item" style="background-color: #C9F; width: 100px; height: 100px;">5</div>
+        <div class="item" style="background-color: #9CF; width: 50px; height: 50px;">6</div>
+        <div class="item" style="background-color: #CCC; width: 50px; height: 50px;">7</div>
+    </div>
+    <script id="script2">
+        pkmx('#sample2', '#sample2 .item', {optimize: 'larger-first'});
+    </script>
+    <div class="comment" style="top: 260px; ">
+        <p>◄ Sample 2 (optimized pack):</p>
+        <script>printScript('script2')</script>
+    </div>
+
+
+    <div id="sample3" style="position: absolute; right: 0; top: 0; width: 200px;">
+        <div class="item" style="background-color: #FC9; width: 100px; height: 50px;">1</div>
+        <div class="item" style="background-color: #9FC; width: 50px; height: 100px;">4</div>
+        <div class="item" style="background-color: #C9F; width: 100px; height: 100px;">5</div>
+        <div class="item" style="background-color: #9CF; width: 50px; height: 50px;">6</div>
+    </div>
+    <script id="script3">
+        pkmx('#sample3', '#sample3 .item', {
+            cellWidth: 100, cellHeight: 100, optimize: 'larger-first',
+            cellVerticalAlign: 'bottom', cellHorizontalAlign: 'right'});
+    </script>
+    <div class="comment" style="top: 110px; ">
+        <p>Sample 3 (custom grid options): ►</p>
+        <script>printScript('script3')</script>
+    </div>
+
+
+    <div id="sample4" style="position: absolute; right: 0; top: 250px; width: 200px;">
+        <div id="s3i1" class="item" style="background-color: #999; width: 100px; height: 100px;">A</div>
+        <div id="s3i2" class="item" style="background-color: #CCC; width: 100px; height: 100px;">B</div>
+        <div id="s3i3" class="item" style="background-color: #FFF; width: 100px; height: 100px;">C</div>
+        <div id="s3i4" class="item" style="background-color: #666; width: 100px; height: 100px;">D</div>
+    </div>
+    <script id="script4">
+        var pack = pkmx('#sample4', '#s3i1', {liveAppend: true});
+        setTimeout(function () {
+            pack.append('#s3i2,#s3i3')
+        }, 1000);
+        setTimeout(function () {
+            pack.append('#s3i4')
+        }, 2000);
+    </script>
+    <div class="comment" style=" top: 360px; ">
+        <p>Sample 4 (appendable pack ): ►</p>
+        <script>printScript('script4')</script>
+    </div>
+</div>
+
+<div class="comment" style="position: absolute; left: 10px; top: 10px; height: 50px;">
+    pkmx - js library for very optimal blocks layout
+</div>
+
+<div class="comment" style="position: absolute; left: 1000px; top: 50px; height: 100px; width: 100px;">
+    Downloads:
+    <br/>
+    <a href="pkmx.js">pkmx.js</a>
+</div>
+
+<div class="comment" style="position: absolute; left: 1150px; top: 50px; height: 100px; width: 150px;">
+    Version: 1.0
+    <br/>
+    License: MIT
+    <br/>
+    © Xantorohara
+</div>
+
+<div class="comment" style="position: absolute; left: 1000px; top: 200px; height: 200px; width: 300px;">
+    Options:
+    <code class="scode">
+        cellWidth (default: 10)
+        cellHeight (default: 10)
+        optimize {none, 'larger-first'}
+        liveAppend (default: false)
+        cellVerticalAlign (top | middle | bottom)
+        cellHorizontalAlign (left | center | right)
+    </code>
+</div>
+
+<div class="comment" style="position: absolute; left: 1000px; top: 450px; height: 100px; width: 150px;">
+    Methods:
+    <code class="scode">
+        append(elements)
+        repack()
+    </code>
+</div>
+
+<div class="comment" style="position: absolute; left: 1200px; top: 450px; height: 100px; width: 100px;">
+    Examples:
+    <code class="scode">
+        <a href="examples/example1.html">Example 1</a>
+    </code>
+</div>
+
+<script>
+    (function () {
+        var pack = pkmx('body', 'body .x', {cellWidth: 100, cellHeight: 100});
+        window.onresize = function () {
+            pack.repack();
+        }
+    })()
+</script>
+
+
+</body>
+</html>
