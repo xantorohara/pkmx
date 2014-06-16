@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Pack options example</title>
+    <script src="../pkmx.js"></script>
+    <style>
+        body {
+            height: 100%;
+            background: #CCC;
+            padding: 10px;
+            overflow-y: scroll;
+        }
+
+        img {
+            transition: .250s linear;
+        }
+
+        #container {
+            width: 800px;
+            position: relative;
+            margin: 25px auto;
+            background-image: url(images/grid1050.gif);
+        }
+    </style>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script>
+        function pack() {
+            var options = {};
+            options.cellWidth = $('#optionCellWidth').val();
+            options.cellHeight = $('#optionCellHeight').val();
+            options.cellHorizontalAlign = $('#optionCellHorizontalAlign').val();
+            options.cellVerticalAlign = $('#optionCellVerticalAlign').val();
+            options.optimize = $('#optionOptimize').val();
+
+            pkmx('#container', 'img', options);
+        }
+    </script>
+</head>
+
+<body>
+
+<label title="options.optimize">
+    Optimization:
+    <select id="optionOptimize" onchange="pack()">
+        <option value="">none</option>
+        <option value="larger-first">larger-first</option>
+    </select>
+</label>
+
+<label title="options.cellWidth">
+    Cell width px:
+    <select id="optionCellWidth" onchange="pack()">
+        <option value="">default</option>
+        <option value="100">100</option>
+        <option value="150">150</option>
+        <option value="200">200</option>
+    </select>
+</label>
+
+<label title="options.cellHeight">
+    Cell height px:
+    <select id="optionCellHeight" onchange="pack()">
+        <option value="">default</option>
+        <option value="100">100</option>
+        <option value="150">150</option>
+        <option value="200">200</option>
+    </select>
+</label>
+
+<label title="options.cellHorizontalAlign">
+    Cell horizontal align:
+    <select id="optionCellHorizontalAlign" onchange="pack()">
+        <option value="">left</option>
+        <option value="center">center</option>
+        <option value="right">right</option>
+    </select>
+</label>
+
+<label title="options.cellVerticalAlign">
+    Cell vertical align:
+    <select id="optionCellVerticalAlign" onchange="pack()">
+        <option value="">top</option>
+        <option value="middle">middle</option>
+        <option value="bottom">bottom</option>
+    </select>
+</label>
+
+<button onclick="pack()">Pack</button>
+
+<div id="container">
+    <img src="images/01.jpg">
+    <img src="images/02.jpg">
+    <img src="images/03.jpg">
+    <img src="images/04.jpg">
+    <img src="images/05.jpg">
+    <img src="images/06.jpg">
+    <img src="images/07.jpg">
+    <img src="images/08.jpg">
+    <img src="images/09.jpg">
+    <img src="images/10.jpg">
+    <img src="images/11.jpg">
+    <img src="images/12.jpg">
+    <img src="images/13.jpg">
+    <img src="images/14.jpg">
+    <img src="images/15.jpg">
+    <img src="images/16.jpg">
+    <img src="images/17.jpg">
+    <img src="images/18.jpg">
+    <img src="images/19.jpg">
+    <img src="images/20.jpg">
+    <img src="images/21.jpg">
+    <img src="images/22.jpg">
+    <img src="images/23.jpg">
+    <img src="images/24.jpg">
+</div>
+
+</body>
+</html>
