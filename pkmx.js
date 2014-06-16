@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2014  Xantorohara
  * Released under the MIT license
+ * Version 1.0
  */
 
 /**
