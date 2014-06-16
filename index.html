@@ -34,6 +34,7 @@
             background-color: #FFF;
             border: dashed red 1px;
             opacity: 0.75;
+            box-sizing: border-box;
         }
 
         .scode {
@@ -147,34 +148,43 @@
 </div>
 
 <div class="comment" style="position: absolute; left: 1000px; top: 50px; height: 100px; width: 100px;">
-    Download:
+    Downloads:
     <br/>
     <a href="pkmx.js">pkmx.js</a>
 </div>
 
-<div class="comment" style="position: absolute; left: 1150px; top: 50px; height: 50px; width: 100px;">
+<div class="comment" style="position: absolute; left: 1150px; top: 50px; height: 100px; width: 150px;">
+    Version: 1.0
+    <br/>
     License: MIT
     <br/>
     © Xantorohara
 </div>
 
-<div class="comment" style="position: absolute; left: 1000px; top: 200px; height: 150px; width: 250px;">
+<div class="comment" style="position: absolute; left: 1000px; top: 200px; height: 200px; width: 300px;">
     Options:
     <code class="scode">
         cellWidth (default: 10)
         cellHeight (default: 10)
-        optimize (default: false)
+        optimize {none, 'larger-first'}
         liveAppend (default: false)
         cellVerticalAlign (top | middle | bottom)
         cellHorizontalAlign (left | center | right)
     </code>
 </div>
 
-<div class="comment" style="position: absolute; left: 1000px; top: 400px; height: 100px; width: 150px;">
+<div class="comment" style="position: absolute; left: 1000px; top: 450px; height: 100px; width: 150px;">
     Methods:
     <code class="scode">
-        append
-        repack
+        append(elements)
+        repack()
+    </code>
+</div>
+
+<div class="comment" style="position: absolute; left: 1200px; top: 450px; height: 100px; width: 100px;">
+    Examples:
+    <code class="scode">
+        <a href="examples/example1.html">Example 1</a>
     </code>
 </div>
 
