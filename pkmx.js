@@ -11,10 +11,11 @@
  * {
  * cellWidth: number,
  * cellHeight: number,
- * cellValign: top | center | bottom
- * cellHalign: left |center | right
- * optimizeSort: boolean,
+ * cellHorizontalAlign: left |center | right
+ * cellVerticalAlign: top | middle | bottom
+ * optimize: larger-first |
  * liveAppend: boolean
+ * manageContainerHeight: boolean
  * }
  * @returns {{append: append, repack: repack}} - function to append or repack elements
  */
@@ -31,6 +32,7 @@ function pkmx(container, elements, options) {
     options = options || {};
     options.cellWidth = options.cellWidth || 10;
     options.cellHeight = options.cellHeight || 10;
+    options.manageContainerHeight = true;
 
     var matrix, columns, index;
     var elems = [];
@@ -43,7 +45,7 @@ function pkmx(container, elements, options) {
         columns = container.clientWidth / options.cellWidth | 0;
         index = 0;
 
-        if (options.optimizeSort) {
+        if (options.optimize == 'larger-first') {
             elems.sort(function (a, b) {
                 return (b.offsetWidth + b.offsetHeight) - (a.offsetWidth + a.offsetHeight);
             });
@@ -52,6 +54,7 @@ function pkmx(container, elements, options) {
             _append(elems[i]);
         }
 
+        resizeContainer();
         if (!options.liveAppend) {
             matrix = null;
         }
@@ -67,6 +70,13 @@ function pkmx(container, elements, options) {
                 _append(elements[i]);
             }
         }
+        resizeContainer();
+    }
+
+    function resizeContainer() {
+        if (options.manageContainerHeight) {
+            container.style.height = matrix.length * options.cellHeight + 'px';
+        }
     }
 
     function _append(element) {
@@ -74,22 +84,22 @@ function pkmx(container, elements, options) {
         var elemH = element.offsetHeight;
 
         var sizeX = Math.ceil(elemW / options.cellWidth);
-        var sizeY = Math.ceil(elemH / options.cellWidth);
+        var sizeY = Math.ceil(elemH / options.cellHeight);
 
         var pos = pkmx.mxAllocate(matrix, columns, sizeX, sizeY, ++index);
 
         if (pos) {
             var dx = 0, dy = 0;
 
-            if (options.cellValign == 'center') {
+            if (options.cellVerticalAlign == 'middle') {
                 dy = (sizeY * options.cellHeight - elemH) / 2 | 0;
-            } else if (options.cellValign == 'bottom') {
+            } else if (options.cellVerticalAlign == 'bottom') {
                 dy = sizeY * options.cellHeight - elemH;
             }
 
-            if (options.cellHalign == 'center') {
+            if (options.cellHorizontalAlign == 'center') {
                 dx = (sizeX * options.cellWidth - elemW) / 2 | 0;
-            } else if (options.cellHalign == 'right') {
+            } else if (options.cellHorizontalAlign == 'right') {
                 dx = sizeX * options.cellWidth - elemW;
             }
 
