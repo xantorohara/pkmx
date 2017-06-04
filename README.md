@@ -18,4 +18,6 @@ matrix
 ```
 
 [See demos on GitHub Pages](http://xantorohara.github.io/pkmx/)
+- [Example 1](http://xantorohara.github.io/pkmx/examples/example1.html)
+- [Example 2](http://xantorohara.github.io/pkmx/examples/example2.html)
 
