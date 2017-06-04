@@ -17,5 +17,5 @@ matrix
                            44440    44445    44445 
 ```
 
-[See demos on GitHub Pages](http://xantorohara.github.io/pkmx)
+[See demos on GitHub Pages](http://xantorohara.github.io/pkmx/)
 
